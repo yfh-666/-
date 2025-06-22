@@ -6,54 +6,6 @@
       <component :is="Component" v-if="flag" />
     </transition>
   </router-view>
-  <div class="footer">
-    <p>
-      <span style="margin: 0px 10px">
-        <i class="iconfont icon-gitee" style="color: #d81e06"></i>
-        <a
-          href="https://gitee.com/falle22222n-leaves/vue_-book-manage-system"
-          target="_blank"
-        >
-          支持项目</a
-        ></span
-      >
-      <span style="margin: 0px 10px">
-        <i class="iconfont icon-weixin"></i>
-        <el-popover placement="top-start" :width="150" trigger="hover">
-          <template #reference> 联系作者 </template>
-          <template #default>
-            <img
-              src="https://pic.yupi.icu/5563/202312061315664.png"
-              style="height: 100px; width: 100px"
-            />
-          </template>
-        </el-popover>
-        <!--        <a href="https://pic.yupi.icu/5563/image-20231030110224977.png"-->
-        <!--          ></a-->
-        <!--        >-->
-      </span>
-      <span style="margin: 0px 10px">
-        <i class="iconfont icon-jinggao"></i>
-        <a href="https://gitee.com/falle22222n-leaves/vue_-book-manage-system">
-          免责声明</a
-        >
-      </span>
-    </p>
-    <p>
-      <i class="iconfont icon-banquan" style="font-size: 18px"></i>
-      2025 小白条出品 |
-      <a href="https://beian.miit.gov.cn/#/Integrated/index"
-        >浙ICP备2023044565号-1</a
-      >
-      |<a href="https://beian.mps.gov.cn/#/query/webSearch">
-        <img
-          src="../../assets/images/logoPolice.png"
-          style="height: 16px; width: 16px; margin: 5px 0px 0px 5px"
-        />
-        浙公网安备33028202001002号
-      </a>
-    </p>
-  </div>
 </template>
 
 <script setup lang="ts">

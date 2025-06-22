@@ -14,10 +14,10 @@
 
 <script setup>
 const images = [
-  "https://pic.yupi.icu/5563/202503111324950.jpeg",
-  "https://pic.yupi.icu/5563/202502241324758.png",
-  "https://pic.yupi.icu/5563/202502241324627.jpg",
-  "https://pic.yupi.icu/5563/202502241320811.jpg"
+  // "https://pic.yupi.icu/5563/202503111324950.jpeg",
+  // "https://pic.yupi.icu/5563/202502241324758.png",
+  // "https://pic.yupi.icu/5563/202502241324627.jpg",
+  // "https://pic.yupi.icu/5563/202502241320811.jpg"
 ];
 </script>
 
