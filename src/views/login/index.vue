@@ -1,74 +1,51 @@
 <template>
   <div class="login_container">
-    <el-row>
-      <el-col :span="12" :xs="0"></el-col>
-      <el-col :span="12" :xs="24">
-        <el-form
-          class="login_form"
-          :model="loginForm"
-          :rules="rules"
-          ref="loginForms"
-        >
-          <el-row
-            ><img
-              src="https://pic.yupi.icu/5563/202503151527812.png"
-              style="width: 128px; height: 128px; border-radius: 5px"
-            />
-            <h1 style="text-align: center; line-height: 128px">Hello</h1>
-          </el-row>
-          <h2>欢迎来到智能 AI 校园二手交易平台</h2>
-          <el-form-item prop="userAccount">
-            <el-input
-              :prefix-icon="User"
-              v-model="loginForm.userAccount"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="userPassword">
-            <el-input
-              type="password"
-              :prefix-icon="Lock"
-              v-model="loginForm.userPassword"
-              show-password
-            ></el-input>
-          </el-form-item>
-
-          <el-form-item>
-            <el-button
-              :loading="loading"
-              type="primary"
-              size="default"
-              class="login_btn"
-              @click="login"
-              >登录
-            </el-button>
-            <el-button
-              :loading="loading"
-              type="success"
-              size="default"
-              class="login_btn"
-              @click="register"
-              >注册
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
-    <el-row>
-      <p class="login_footer">
-        <i class="iconfont icon-banquan" style="font-size: 18px"></i>
-        2025 小白条出品 |
-        <a href="https://beian.miit.gov.cn/#/Integrated/index"
-          >浙ICP备2023044565号-1</a
-        >
-        |<a href="https://beian.mps.gov.cn/#/query/webSearch">
-          <img
-            src="../../assets/images/logoPolice.png"
-            style="height: 16px; width: 16px; margin: 5px 0px 0px 5px"
-          />
-          浙公网安备33028202001002号
-        </a>
-      </p>
-    </el-row>
+    <div class="cute-bg"></div>
+    <div class="login_center">
+      <el-form
+        class="login_form"
+        :model="loginForm"
+        :rules="rules"
+        ref="loginForms"
+      >
+        <div class="login_header">
+          <h1>速易通</h1>
+        </div>
+        <h2>欢迎来到智能 AI 校园二手交易平台</h2>
+        <el-form-item prop="userAccount" class="login_input">
+          <el-input
+            :prefix-icon="User"
+            v-model="loginForm.userAccount"
+            placeholder="请输入账号"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="userPassword" class="login_input">
+          <el-input
+            type="password"
+            :prefix-icon="Lock"
+            v-model="loginForm.userPassword"
+            show-password
+            placeholder="请输入密码"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            :loading="loading"
+            type="primary"
+            class="login_btn"
+            @click="login"
+            >登录
+          </el-button>
+          <el-button
+            :loading="loading"
+            type="success"
+            class="login_btn"
+            @click="register"
+            >注册
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -172,47 +149,161 @@ const rules = {
   userPassword: [{ trigger: "change", validator: validatorPassword }]
 };
 </script>
+
 <style scoped lang="scss">
-.login_container {
-  width: 100%;
+// 可爱背景圆圈
+.cute-bg {
+  position: absolute;
+  width: 100vw;
   height: 100vh;
-  background: url("https://pic.yupi.icu/5563/202503151521829.png") no-repeat;
-  background-size: cover;
-
-  .login_form {
-    position: relative;
-    width: 80%;
-    top: 30vh;
-    background: url("@/assets/images/login_form.png") no-repeat;
-    background-size: cover;
-    padding: 40px;
-
-    h1 {
-      color: white;
-      font-size: 40px;
-    }
-
-    h2 {
-      font-size: 20px;
-      color: white;
-      margin: 20px 0px;
-    }
-
-    .login_btn {
-      width: 20%;
+  z-index: 0;
+  pointer-events: none;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(30px);
+    opacity: 0.7;
+  }
+  &::before {
+    width: 300px;
+    height: 300px;
+    left: 8vw;
+    top: 8vh;
+    background: #ffe0f0;
+  }
+  &::after {
+    width: 400px;
+    height: 400px;
+    right: 8vw;
+    bottom: 8vh;
+    background: #d0f4de;
+  }
+  // 更多可爱圆圈
+  .circle1 {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    left: 60vw;
+    top: 10vh;
+    background: #f9d6e9;
+    border-radius: 50%;
+    filter: blur(20px);
+    opacity: 0.5;
+  }
+  .circle2 {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    right: 20vw;
+    bottom: 20vh;
+    background: #b5ead7;
+    border-radius: 50%;
+    filter: blur(16px);
+    opacity: 0.5;
+  }
+}
+.login_container {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f9d6e9 0%, #b5ead7 100%);
+  position: relative;
+  overflow: hidden;
+}
+.login_center {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 80vh;
+}
+.login_form {
+  // min-width: 380px;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 32px;
+  box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.16);
+  padding: 48px 36px 32px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s;
+  position: relative;
+  .login_input {
+    width: 100%;
+  }
+  h1 {
+    color: #ff8fab;
+    font-size: 44px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  h2 {
+    font-size: 20px;
+    color: #7b7b7b;
+    margin: 20px 0px 24px 0px;
+    text-align: center;
+    font-weight: 400;
+  }
+  .login_btn {
+    width: 100px;
+    margin: 0 10px;
+    border-radius: 24px;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 2px 8px #f9d6e9;
+    transition: box-shadow 0.2s, background 0.2s;
+    &:hover {
+      box-shadow: 0 4px 16px #ffb3c6;
     }
   }
-
+}
+.login_header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+  .login_logo {
+    width: 96px;
+    height: 96px;
+    border-radius: 16px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 12px #b8d4ff;
+  }
+}
+a {
+  text-decoration: none;
+  color: #ff8fab;
+  transition: color 0.2s;
+  &:hover {
+    color: #ff5eae;
+  }
+}
+.login_footer {
+  position: fixed;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  padding: 4px 16px;
+  font-size: 14px;
+  box-shadow: 0 2px 8px #f9d6e9;
+  color: #ff8fab;
   a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .login_footer {
-    position: fixed;
-    bottom: 0px;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    color: #ff8fab;
+    &:hover {
+      color: #ff5eae;
+    }
   }
 }
 </style>

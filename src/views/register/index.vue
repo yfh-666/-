@@ -1,68 +1,56 @@
 <template>
   <div class="register_container">
-    <el-row>
-      <el-col :span="12" :xs="0"></el-col>
-      <el-col :span="12" :xs="24">
-        <el-form
-          class="register_form"
-          :model="registerForm"
-          :rules="rules"
-          ref="registerForms"
-        >
-          <el-row
-            ><img
-              src="../../assets/images/logo.png"
-              style="width: 128px; height: 128px"
-            />
-            <h1 style="text-align: center; line-height: 128px">Hello</h1>
-          </el-row>
-
-          <h2>欢迎来到智能 AI 校园二手交易平台,请注册您的账号</h2>
-          <el-form-item prop="userAccount">
-            <el-input
-              placeholder="请输入您的账号"
-              :prefix-icon="User"
-              v-model="registerForm.userAccount"
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="userPassword">
-            <el-input
-              placeholder="请输入您的密码"
-              type="password"
-              :prefix-icon="Lock"
-              v-model="registerForm.userPassword"
-              show-password
-            ></el-input>
-          </el-form-item>
-          <el-form-item prop="checkPassword">
-            <el-input
-              placeholder="请再次输入您的密码"
-              type="password"
-              :prefix-icon="Lock"
-              v-model="registerForm.checkPassword"
-              show-password
-            ></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              :loading="loading"
-              type="success"
-              size="default"
-              class="register_btn"
-              @click="register"
-              >注册
-            </el-button>
-            <el-button
-              type="primary"
-              size="default"
-              class="back_login_btn"
-              @click="backToLogin"
-              >返回登录
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </el-col>
-    </el-row>
+    <div class="cute-bg"></div>
+    <div class="register_center">
+      <el-form
+        class="register_form"
+        :model="registerForm"
+        :rules="rules"
+        ref="registerForms"
+      >
+        <div class="register_header">
+          <h1>速易通</h1>
+        </div>
+        <h2>注册</h2>
+        <el-form-item prop="userAccount" class="register_input">
+          <el-input
+            placeholder="请输入您的账号"
+            :prefix-icon="User"
+            v-model="registerForm.userAccount"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="userPassword" class="register_input">
+          <el-input
+            placeholder="请输入您的密码"
+            type="password"
+            :prefix-icon="Lock"
+            v-model="registerForm.userPassword"
+            show-password
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="checkPassword" class="register_input">
+          <el-input
+            placeholder="请再次输入您的密码"
+            type="password"
+            :prefix-icon="Lock"
+            v-model="registerForm.checkPassword"
+            show-password
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            :loading="loading"
+            type="success"
+            class="register_btn"
+            @click="register"
+            >注册
+          </el-button>
+          <el-button type="primary" class="back_login_btn" @click="backToLogin"
+            >返回登录
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -153,39 +141,134 @@ const rules = {
   checkPassword: [{ trigger: "change", validator: validatorCheckPassword }]
 };
 </script>
+
 <style scoped lang="scss">
-.register_container {
-  width: 100%;
+// 可爱背景圆圈
+.cute-bg {
+  position: absolute;
+  width: 100vw;
   height: 100vh;
-  background: url("@/assets/images/background.jpg") no-repeat;
-  background-size: cover;
-
-  .register_form {
-    position: relative;
-    width: 80%;
-    top: 20vh;
-    background: url("@/assets/images/login_form.png") no-repeat;
-    background-size: cover;
-    padding: 40px;
-
-    h1 {
-      color: white;
-      font-size: 40px;
+  z-index: 0;
+  pointer-events: none;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(30px);
+    opacity: 0.7;
+  }
+  &::before {
+    width: 300px;
+    height: 300px;
+    left: 8vw;
+    top: 8vh;
+    background: #ffe0f0;
+  }
+  &::after {
+    width: 400px;
+    height: 400px;
+    right: 8vw;
+    bottom: 8vh;
+    background: #d0f4de;
+  }
+  .circle1 {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    left: 60vw;
+    top: 10vh;
+    background: #f9d6e9;
+    border-radius: 50%;
+    filter: blur(20px);
+    opacity: 0.5;
+  }
+  .circle2 {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    right: 20vw;
+    bottom: 20vh;
+    background: #b5ead7;
+    border-radius: 50%;
+    filter: blur(16px);
+    opacity: 0.5;
+  }
+}
+.register_container {
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f9d6e9 0%, #b5ead7 100%);
+  position: relative;
+  overflow: hidden;
+}
+.register_center {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 80vh;
+}
+.register_form {
+  min-width: 380px;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 32px;
+  box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.16);
+  padding: 48px 36px 32px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: box-shadow 0.2s;
+  position: relative;
+  .register_input {
+    width: 100%;
+  }
+  h1 {
+    color: #ff8fab;
+    font-size: 44px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  h2 {
+    font-size: 20px;
+    color: #7b7b7b;
+    margin: 20px 0px 24px 0px;
+    text-align: center;
+    font-weight: 400;
+  }
+  .register_btn,
+  .back_login_btn {
+    width: 100px;
+    margin: 0 10px;
+    border-radius: 24px;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 2px 8px #f9d6e9;
+    transition: box-shadow 0.2s, background 0.2s;
+    &:hover {
+      box-shadow: 0 4px 16px #ffb3c6;
     }
-
-    h2 {
-      font-size: 20px;
-      color: white;
-      margin: 20px 0px;
-    }
-
-    .register_btn {
-      width: 20%;
-    }
-
-    .back_login_btn {
-      width: 20%;
-    }
+  }
+}
+.register_header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px;
+  .register_logo {
+    width: 96px;
+    height: 96px;
+    border-radius: 16px;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 12px #b8d4ff;
   }
 }
 </style>
