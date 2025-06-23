@@ -34,9 +34,7 @@ import { listNoticeVoByPageUsingPost } from "@/api/noticeController";
 import { ElMessage } from "element-plus";
 
 // 初始化数据
-const text = ref(
-  "智能 AI 校园二手交易平台公告栏,记得查收公告呀!小项目请勿恶意攻击,谢谢"
-);
+const text = ref("好消息,好消息,6.28放假啦~~~");
 const noticeList = ref([]);
 const loading = ref(true);
 // 获取公告数据

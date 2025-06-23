@@ -28,6 +28,7 @@
           <el-button
             type="success"
             @click="addPost = false"
+            v-show="addPost"
             :icon="Back"
             :style="{ marginLeft: addPost ? '100px' : '30px' }"
           >
