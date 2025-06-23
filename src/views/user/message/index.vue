@@ -2,7 +2,7 @@
   <div class="big">
     <el-card class="card-container">
       <div class="backgroundImg">
-        <img src="@/assets/images/animeboySkyMin.jpg" alt="" />
+        <img src="@/assets/images/comment.png" alt="" />
       </div>
 
       <vue-danmaku
@@ -140,7 +140,12 @@ const speeds = ref(150);
 // 留言内容
 const comment = ref("");
 //内容
-const danmus = ref([]);
+interface BarrageVO {
+  message: string;
+  userAvatar: string;
+  // 根据实际接口补充其他字段
+}
+const danmus = ref<BarrageVO[]>([]);
 // 添加弹幕
 const addDanmu = async () => {
   if (comment.value.trim()) {
@@ -149,7 +154,7 @@ const addDanmu = async () => {
       message: comment.value.trim(),
       userAvatar: GET_AVATAR()
     });
-    if (res.code !== 200) {
+    if (res.data.code !== 200) {
       ElMessage.error({
         message: "添加弹幕失败",
         duration: 1000
@@ -170,13 +175,19 @@ const getBarrageList = async () => {
     pageSize: 100,
     current: 1
   });
-  if (res.code !== 200) {
+  if (res.data.code !== 200) {
     ElMessage.error({
       message: "获取弹幕列表失败",
       duration: 1000
     });
   }
-  danmus.value = res.data.records;
+  // 保证 message 和 userAvatar 不为 undefined
+  danmus.value = (
+    res.data.data && res.data.data.records ? res.data.data.records : []
+  ).map((item: any) => ({
+    message: item.message ?? "",
+    userAvatar: item.userAvatar ?? ""
+  }));
   ElMessage.success({
     message: "获取弹幕列表成功",
     duration: 1000
