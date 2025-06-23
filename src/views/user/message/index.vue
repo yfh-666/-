@@ -140,12 +140,7 @@ const speeds = ref(150);
 // 留言内容
 const comment = ref("");
 //内容
-interface BarrageVO {
-  message: string;
-  userAvatar: string;
-  // 根据实际接口补充其他字段
-}
-const danmus = ref<BarrageVO[]>([]);
+const danmus = ref([]);
 // 添加弹幕
 const addDanmu = async () => {
   if (comment.value.trim()) {
@@ -154,7 +149,7 @@ const addDanmu = async () => {
       message: comment.value.trim(),
       userAvatar: GET_AVATAR()
     });
-    if (res.data.code !== 200) {
+    if (res.code !== 200) {
       ElMessage.error({
         message: "添加弹幕失败",
         duration: 1000
@@ -175,19 +170,13 @@ const getBarrageList = async () => {
     pageSize: 100,
     current: 1
   });
-  if (res.data.code !== 200) {
+  if (res.code !== 200) {
     ElMessage.error({
       message: "获取弹幕列表失败",
       duration: 1000
     });
   }
-  // 保证 message 和 userAvatar 不为 undefined
-  danmus.value = (
-    res.data.data && res.data.data.records ? res.data.data.records : []
-  ).map((item: any) => ({
-    message: item.message ?? "",
-    userAvatar: item.userAvatar ?? ""
-  }));
+  danmus.value = res.data.records;
   ElMessage.success({
     message: "获取弹幕列表成功",
     duration: 1000
