@@ -227,6 +227,17 @@ export const asnycUserRoute = [
         }
       },
       {
+        //商品管理
+        path: "/user/commodityManagement",
+        component: () => import("@/views/user/commodityManagement/index.vue"),
+        // name: "commodityManagement",
+        meta: {
+          title: "商品管理", //菜单标题
+          hidden: false, //代表路由标题在菜单中是否隐藏  true:隐藏 false:不隐藏
+          icon: "Goods" //菜单文字左侧的图标,支持element-plus全部图标
+        }
+      },
+      {
         path: "/user/notice",
         component: () => import("@/views/user/notice/index.vue"),
         name: "notice",

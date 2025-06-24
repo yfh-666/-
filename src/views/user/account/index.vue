@@ -80,6 +80,14 @@
                 style="margin-top: 20px"
               ></el-input>
             </el-row>
+            <el-row style="margin-bottom: 20px">
+              余额：
+              <el-input
+                disabled
+                v-model="user.balance"
+                style="margin-top: 20px"
+              ></el-input>
+            </el-row>
           </el-card>
         </el-tab-pane>
         <el-tab-pane label="收藏攻略" name="second">
@@ -165,6 +173,7 @@ const user = ref({
   id: 0,
   userAvatar: "",
   userName: "",
+  balance: "",
   userProfile: "",
   userRole: ""
 });

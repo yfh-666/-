@@ -24,8 +24,14 @@ export const GET_ROLE = () => {
 export const SET_AVATAR = (avatar: string) => {
   localStorage.setItem("avatar", avatar);
 };
+export const SET_BALANCE = (balance: string) => {
+  localStorage.setItem("balance", balance);
+};
 export const GET_AVATAR = () => {
   return localStorage.getItem("avatar") ?? "";
+};
+export const GET_BALANCE = () => {
+  return localStorage.getItem("balance") ?? "";
 };
 export const SET_USER_NAME = (userName: string) => {
   localStorage.setItem("userName", userName);

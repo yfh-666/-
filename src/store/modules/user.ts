@@ -13,6 +13,7 @@ import {
   SET_ID,
   SET_ROLE,
   SET_TOKEN,
+  SET_BALANCE,
   SET_USER_NAME
 } from "@/utils/token";
 //引入路由(常量路由)
@@ -65,6 +66,8 @@ const useUserStore = defineStore("User", {
         SET_TOKEN(result.hashMap.token as string);
         // 本地存储用户id
         SET_ID(result.data.id as string);
+        // 本地存储余额
+        SET_BALANCE(result.data.balance as string);
         // 本地存储用户角色
         SET_ROLE(this.userRole);
         // 本地存储用户头像
