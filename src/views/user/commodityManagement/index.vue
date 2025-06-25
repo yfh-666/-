@@ -287,11 +287,11 @@ import {
 } from "element-plus";
 import { Promotion } from "@element-plus/icons-vue";
 import {
-  addCommodityUsingPost,
+  addMyCommodityUsingPost,
   deleteCommodityUsingPost,
   getCommodityVoByIdUsingGet,
-  listCommodityVoByPageUsingPost,
-  updateCommodityUsingPost
+  listMyCommodityByPage,
+  updateMyCommodityUsingPost
 } from "@/api/commodityController";
 import { listCommodityTypeVoByPageUsingPost } from "@/api/commodityTypeController";
 
@@ -355,7 +355,7 @@ const addForm = ref({
 const getCommodityList = async () => {
   loading.value = true;
   try {
-    const res = await listCommodityVoByPageUsingPost({
+    const res = await listMyCommodityByPage({
       ...queryParams.value,
       current: paginationConfig.value.current,
       pageSize: paginationConfig.value.pageSize
@@ -430,7 +430,7 @@ const showEditDialog = async (id: number) => {
 // 修改商品
 const editCommodity = async () => {
   try {
-    const res = await updateCommodityUsingPost(editForm.value);
+    const res = await updateMyCommodityUsingPost(editForm.value);
     if (res.code === 200) {
       ElMessage.success("修改商品成功");
       editDialogVisible.value = false;
@@ -446,7 +446,7 @@ const editCommodity = async () => {
 // 添加商品
 const addCommodity = async () => {
   try {
-    const res = await addCommodityUsingPost(addForm.value);
+    const res = await addMyCommodityUsingPost(addForm.value);
     if (res.code === 200) {
       ElMessage.success("添加商品成功");
       addDialogVisible.value = false;

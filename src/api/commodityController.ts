@@ -16,6 +16,19 @@ export async function addCommodityUsingPost(
     ...(options || {})
   });
 }
+export async function addMyCommodityUsingPost(
+  body: API.CommodityAddRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseLong_>("/api/commodity/my/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    data: body,
+    ...(options || {})
+  });
+}
 
 /** buyCommodity POST /api/commodity/buy */
 export async function buyCommodityUsingPost(
@@ -145,6 +158,22 @@ export async function listMyCommodityVoByPageUsingPost(
     }
   );
 }
+export async function listMyCommodityByPage(
+  body: API.CommodityQueryRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponsePageCommodityVO_>(
+    "/api/commodity/my/list/page",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      data: body,
+      ...(options || {})
+    }
+  );
+}
 
 /** payCommodityOrder POST /api/commodity/pay */
 export async function payCommodityOrderUsingPost(
@@ -167,6 +196,20 @@ export async function updateCommodityUsingPost(
   options?: { [key: string]: any }
 ) {
   return request<API.BaseResponseBoolean_>("/api/commodity/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    data: body,
+    ...(options || {})
+  });
+}
+/** updateCommodity POST /api/commodity/update */
+export async function updateMyCommodityUsingPost(
+  body: API.CommodityUpdateRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.BaseResponseBoolean_>("/api/commodity/my/update", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
