@@ -35,7 +35,7 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <!-- <el-col :span="6">
           <el-form-item label="是否上架">
             <el-select
               v-model="queryParams.isListed"
@@ -46,7 +46,7 @@
               <el-option label="已上架" :value="1" />
             </el-select>
           </el-form-item>
-        </el-col>
+        </el-col> -->
         <el-col :span="8">
           <el-form-item>
             <el-button @click="resetQuery">重置</el-button>
@@ -172,12 +172,12 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="是否上架" prop="isListed">
+        <!-- <el-form-item label="是否上架" prop="isListed">
           <el-select v-model="editForm.isListed" placeholder="请选择">
             <el-option label="未上架" :value="0" />
             <el-option label="已上架" :value="1" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="价格" prop="price">
           <el-input v-model="editForm.price" />
         </el-form-item>
@@ -241,12 +241,12 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="是否上架" prop="isListed">
+        <!-- <el-form-item label="是否上架" prop="isListed">
           <el-select v-model="addForm.isListed" placeholder="请选择">
             <el-option label="未上架" :value="0" />
             <el-option label="已上架" :value="1" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="价格" prop="price">
           <el-input v-model="addForm.price" />
         </el-form-item>
