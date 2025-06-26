@@ -143,7 +143,7 @@
         <el-form-item label="商品简介" prop="commodityDescription">
           <el-input type="textarea" v-model="editForm.commodityDescription" />
         </el-form-item>
-        <el-form-item label="商品封面" prop="commodityAvatar">
+        <!-- <el-form-item label="商品封面" prop="commodityAvatar">
           <el-input
             v-model="editForm.commodityAvatar"
             placeholder="请输入图片URL"
@@ -155,6 +155,31 @@
             style="width: 128px; height: 128px; margin-top: 10px"
             :preview-src-list="[editForm.commodityAvatar]"
           />
+        </el-form-item> -->
+        <el-form-item label="商品封面" prop="commodityAvatar">
+          <el-upload
+            class="avatar-uploader"
+            action="http://localhost:8102/api/file/upload"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+            :data="getUploadData"
+            :headers="uploadHeaders()"
+          >
+            <img
+              v-if="editForm.commodityAvatar"
+              :src="editForm.commodityAvatar"
+              class="avatar"
+              style="width: 128px; height: 128px; margin-top: 10px"
+            />
+            <el-icon
+              v-else
+              class="avatar-uploader-icon"
+              style="font-size: 32px; margin-top: 10px"
+            >
+              <Plus />
+            </el-icon>
+          </el-upload>
         </el-form-item>
         <el-form-item label="新旧程度" prop="degree">
           <el-input v-model="editForm.degree" />
@@ -212,7 +237,7 @@
         <el-form-item label="商品简介" prop="commodityDescription">
           <el-input type="textarea" v-model="addForm.commodityDescription" />
         </el-form-item>
-        <el-form-item label="商品封面" prop="commodityAvatar">
+        <!-- <el-form-item label="商品封面" prop="commodityAvatar">
           <el-input
             v-model="addForm.commodityAvatar"
             placeholder="请输入图片URL"
@@ -224,6 +249,30 @@
             style="width: 128px; height: 128px; margin-top: 10px"
             :preview-src-list="[addForm.commodityAvatar]"
           />
+        </el-form-item> -->
+        <el-form-item label="商品封面" prop="commodityAvatar">
+          <el-upload
+            class="avatar-uploader"
+            action="http://localhost:8102/api/file/upload"
+            :show-file-list="false"
+            :on-success="handleAddAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+            :data="getUploadData"
+          >
+            <img
+              v-if="addForm.commodityAvatar"
+              :src="addForm.commodityAvatar"
+              class="avatar"
+              style="width: 128px; height: 128px; margin-top: 10px"
+            />
+            <el-icon
+              v-else
+              class="avatar-uploader-icon"
+              style="font-size: 32px; margin-top: 10px"
+            >
+              <Plus />
+            </el-icon>
+          </el-upload>
         </el-form-item>
         <el-form-item label="新旧程度" prop="degree">
           <el-input v-model="addForm.degree" />
@@ -294,7 +343,7 @@ import {
   updateMyCommodityUsingPost
 } from "@/api/commodityController";
 import { listCommodityTypeVoByPageUsingPost } from "@/api/commodityTypeController";
-
+import { Plus } from "@element-plus/icons-vue";
 // 查询参数
 const queryParams = ref({
   commodityName: "",
@@ -302,6 +351,10 @@ const queryParams = ref({
   degree: "",
   commodityTypeId: "",
   isListed: ""
+});
+
+const uploadHeaders = () => ({
+  Authorization: "Bearer " + window.localStorage.getItem("TOKEN")
 });
 
 // 商品列表
@@ -373,6 +426,33 @@ const getCommodityList = async () => {
   }
 };
 
+// 上传成功回调
+const handleAvatarSuccess = (response) => {
+  // 假设接口返回图片URL为 response.url
+  editForm.value.commodityAvatar = response.data;
+};
+const handleAddAvatarSuccess = (response) => {
+  // 假设接口返回图片URL为 response.data
+  addForm.value.commodityAvatar = response.data;
+};
+// 上传前校验
+const beforeAvatarUpload = (file) => {
+  const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+  const isLt1M = file.size / 1024 / 1024 < 1; // 限制 1MB
+
+  if (!isJPG) {
+    ElMessage.error("上传图片只能是 JPG/PNG 格式!");
+  }
+  if (!isLt1M) {
+    ElMessage.error("上传图片大小不能超过 1MB!");
+  }
+  return isJPG && isLt1M;
+};
+const getUploadData = () => {
+  return {
+    biz: "user_avatar" // biz为文件名
+  };
+};
 // 获取商品分类列表
 const getCommodityTypeList = async () => {
   try {
@@ -526,5 +606,21 @@ onMounted(() => {
 <style scoped>
 .commodity-admin {
   padding: 20px;
+}
+
+.avatar-uploader .avatar {
+  width: 128px;
+  height: 128px;
+  display: block;
+}
+
+.avatar-uploader-icon {
+  width: 128px;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #d9d9d9;
+  cursor: pointer;
 }
 </style>

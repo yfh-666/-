@@ -60,7 +60,6 @@ const useUserStore = defineStore("User", {
           this.menuRoutes = [...constantRoute, ...asnycUserRoute, anyRoute];
         }
         //pinia仓库存储一下token
-        //由于pinia|vuex存储数据其实利用js对象
         this.token = result.hashMap.token as string;
         //本地存储持久化存储一份
         SET_TOKEN(result.hashMap.token as string);
