@@ -258,6 +258,7 @@
             :on-success="handleAddAvatarSuccess"
             :before-upload="beforeAvatarUpload"
             :data="getUploadData"
+            :headers="uploadHeaders()"
           >
             <img
               v-if="addForm.commodityAvatar"

@@ -19,22 +19,25 @@
             <el-row :gutter="20" style="margin-bottom: 20px">
               <el-col>
                 用户头像：
-                <img
-                  v-if="user.userAvatar"
-                  :src="user.userAvatar"
-                  class="avatar"
-                  style="height: 64px; width: 64px; border-radius: 50%"
-                />
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col>
-                修改用户头像：
-                <el-input
-                  style="margin: 10px 0"
-                  placeholder="请输入一个http在线图片链接，例如:https://www.xiaobaitiao.top/logo.png"
-                  v-model="newUserAvatar"
-                ></el-input>
+                <el-upload
+                  class="avatar-uploader"
+                  action="http://localhost:8102/api/file/upload"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload"
+                  :data="getUploadData"
+                  :headers="uploadHeaders"
+                >
+                  <img
+                    v-if="newUserAvatar || user.userAvatar"
+                    :src="newUserAvatar || user.userAvatar"
+                    class="avatar"
+                    style="height: 64px; width: 64px; border-radius: 50%"
+                  />
+                  <el-icon v-else class="avatar-uploader-icon">
+                    <Plus />
+                  </el-icon>
+                </el-upload>
               </el-col>
             </el-row>
             <!--        id-->
@@ -184,6 +187,33 @@ const queryParams = ref({
   current: 1,
   pageSize: 10
 });
+
+import { Plus } from "@element-plus/icons-vue";
+
+// 上传成功回调
+const handleAvatarSuccess = (response) => {
+  // 假设接口返回图片URL为 response.data
+  newUserAvatar.value = response.data;
+};
+
+// 上传前校验
+const beforeAvatarUpload = (file) => {
+  const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+  const isLt1M = file.size / 1024 / 1024 < 1;
+  if (!isJPG) ElMessage.error("只能上传 JPG/PNG 格式图片!");
+  if (!isLt1M) ElMessage.error("图片大小不能超过 1MB!");
+  return isJPG && isLt1M;
+};
+
+// 附加参数
+const getUploadData = () => ({
+  biz: "user_avatar"
+});
+
+// token
+const uploadHeaders = {
+  Authorization: "Bearer " + (window.localStorage.getItem("TOKEN") || "")
+};
 // 调用后端接口获取数据
 const fetchTravelData = async (userId: number, payStatus: number) => {
   try {

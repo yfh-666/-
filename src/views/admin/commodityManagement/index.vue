@@ -144,17 +144,29 @@
           <el-input type="textarea" v-model="editForm.commodityDescription" />
         </el-form-item>
         <el-form-item label="商品封面" prop="commodityAvatar">
-          <el-input
-            v-model="editForm.commodityAvatar"
-            placeholder="请输入图片URL"
-            class="avatar-input"
-          />
-          <el-image
-            v-if="editForm.commodityAvatar"
-            :src="editForm.commodityAvatar"
-            style="width: 128px; height: 128px; margin-top: 10px"
-            :preview-src-list="[editForm.commodityAvatar]"
-          />
+          <el-upload
+            class="avatar-uploader"
+            action="http://localhost:8102/api/file/upload"
+            :show-file-list="false"
+            :on-success="handleEditAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+            :data="getUploadData"
+            :headers="uploadHeaders()"
+          >
+            <img
+              v-if="editForm.commodityAvatar"
+              :src="editForm.commodityAvatar"
+              class="avatar"
+              style="width: 128px; height: 128px; margin-top: 10px"
+            />
+            <el-icon
+              v-else
+              class="avatar-uploader-icon"
+              style="font-size: 32px; margin-top: 10px"
+            >
+              <Plus />
+            </el-icon>
+          </el-upload>
         </el-form-item>
         <el-form-item label="新旧程度" prop="degree">
           <el-input v-model="editForm.degree" />
@@ -213,17 +225,29 @@
           <el-input type="textarea" v-model="addForm.commodityDescription" />
         </el-form-item>
         <el-form-item label="商品封面" prop="commodityAvatar">
-          <el-input
-            v-model="addForm.commodityAvatar"
-            placeholder="请输入图片URL"
-            class="avatar-input"
-          />
-          <el-image
-            v-if="addForm.commodityAvatar"
-            :src="addForm.commodityAvatar"
-            style="width: 128px; height: 128px; margin-top: 10px"
-            :preview-src-list="[addForm.commodityAvatar]"
-          />
+          <el-upload
+            class="avatar-uploader"
+            action="http://localhost:8102/api/file/upload"
+            :show-file-list="false"
+            :on-success="handleAddAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+            :data="getUploadData"
+            :headers="uploadHeaders()"
+          >
+            <img
+              v-if="addForm.commodityAvatar"
+              :src="addForm.commodityAvatar"
+              class="avatar"
+              style="width: 128px; height: 128px; margin-top: 10px"
+            />
+            <el-icon
+              v-else
+              class="avatar-uploader-icon"
+              style="font-size: 32px; margin-top: 10px"
+            >
+              <Plus />
+            </el-icon>
+          </el-upload>
         </el-form-item>
         <el-form-item label="新旧程度" prop="degree">
           <el-input v-model="addForm.degree" />
@@ -349,6 +373,32 @@ const addForm = ref({
   price: 0,
   commodityAvatar: "",
   commodityInventory: 1
+});
+
+import { Plus } from "@element-plus/icons-vue";
+
+// 上传成功回调
+const handleAddAvatarSuccess = (response) => {
+  addForm.value.commodityAvatar = response.data;
+};
+const handleEditAvatarSuccess = (response) => {
+  editForm.value.commodityAvatar = response.data;
+};
+// 上传前校验
+const beforeAvatarUpload = (file) => {
+  const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+  const isLt1M = file.size / 1024 / 1024 < 1;
+  if (!isJPG) ElMessage.error("上传图片只能是 JPG/PNG 格式!");
+  if (!isLt1M) ElMessage.error("上传图片大小不能超过 1MB!");
+  return isJPG && isLt1M;
+};
+// 附加参数
+const getUploadData = () => ({
+  biz: "user_avatar" // 或 file.name，按后端要求
+});
+// token
+const uploadHeaders = () => ({
+  Authorization: "Bearer " + window.localStorage.getItem("TOKEN")
 });
 
 // 获取商品列表
@@ -526,5 +576,19 @@ onMounted(() => {
 <style scoped>
 .commodity-admin {
   padding: 20px;
+}
+.avatar-uploader .avatar {
+  width: 128px;
+  height: 128px;
+  display: block;
+}
+.avatar-uploader-icon {
+  width: 128px;
+  height: 128px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #d9d9d9;
+  cursor: pointer;
 }
 </style>
