@@ -2,7 +2,7 @@
   <div>
     <el-card style="margin-bottom: 20px">
       <el-row :gutter="10">
-        <el-col :span="8">
+        <el-col :span="6">
           <el-form-item label="用户名">
             <el-input
               v-model="searchParams.userName"
@@ -18,7 +18,7 @@
             />
           </el-form-item>
         </el-col>
-        <el-col :span="3" :offset="5">
+        <el-col :span="5" :offset="5">
           <el-form-item>
             <el-button @click="resetSearchParams">重置</el-button>
             <el-button type="primary" @click="getUserList">查询 </el-button>
@@ -119,7 +119,25 @@
           :label-width="formLabelWidth"
           label-position="left"
         >
-          <el-input v-model="editForm.userAvatar" autocomplete="off" />
+          <el-upload
+            class="avatar-uploader"
+            action="http://localhost:8102/api/file/upload"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+            :headers="uploadHeaders"
+            :data="getUploadData"
+          >
+            <img
+              v-if="editForm.userAvatar"
+              :src="editForm.userAvatar"
+              class="avatar"
+              style="width: 64px; height: 64px; border-radius: 50%"
+            />
+            <el-icon v-else class="avatar-uploader-icon">
+              <Plus />
+            </el-icon>
+          </el-upload>
         </el-form-item>
         <el-form-item
           label="用户简介"
@@ -241,6 +259,33 @@ const editForm = ref({
 });
 const editFormRef = ref<FormInstance>();
 const viewForm = ref();
+
+import { Plus } from "@element-plus/icons-vue";
+
+// 上传成功回调
+const handleAvatarSuccess = (response) => {
+  // 假设接口返回图片URL为 response.data
+  editForm.value.userAvatar = response.data;
+};
+
+// 上传前校验
+const beforeAvatarUpload = (file) => {
+  const isJPG = file.type === "image/jpeg" || file.type === "image/png";
+  const isLt1M = file.size / 1024 / 1024 < 1;
+  if (!isJPG) ElMessage.error("只能上传 JPG/PNG 格式图片!");
+  if (!isLt1M) ElMessage.error("图片大小不能超过 1MB!");
+  return isJPG && isLt1M;
+};
+
+// 附加参数
+const getUploadData = () => ({
+  biz: "user_avatar"
+});
+
+// token
+const uploadHeaders = {
+  Authorization: "Bearer " + (window.localStorage.getItem("TOKEN") || "")
+};
 // 格式化时间
 const formatDate = (row, column, cellValue) => {
   return new Date(cellValue).toLocaleString();
@@ -341,4 +386,21 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.avatar-uploader .avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: block;
+}
+.avatar-uploader-icon {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #d9d9d9;
+  cursor: pointer;
+  border-radius: 50%;
+}
+</style>
